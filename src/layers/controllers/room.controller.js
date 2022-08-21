@@ -1,8 +1,7 @@
-const { RoboMaker } = require('aws-sdk');
-const express = require('express');
-const joi = require('joi');
+const express = require("express");
+const joi = require("joi");
 
-const RoomService = require('../services/room.service');
+const RoomService = require("../services/room.service");
 
 class RoomController {
     roomService;
@@ -30,7 +29,7 @@ class RoomController {
             console.log(err);
             return res
                 .status(400)
-                .json({ status: 400, success: false, message: '입력한 형식이 맞지 않습니다.' });
+                .json({ status: 400, success: false, message: "입력한 형식이 맞지 않습니다." });
             throw err;
         }
     };
@@ -38,7 +37,7 @@ class RoomController {
     getRoom = async (req, res, next) => {
         const category = req.query.category;
         try {
-            if (category === '') {
+            if (category === "") {
                 const getAllRoom = await this.roomService.getRoom();
                 return res.status(200).json({ status: 200, success: true, result: getAllRoom });
             } else {

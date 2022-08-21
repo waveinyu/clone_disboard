@@ -25,5 +25,5 @@ sequelize
     });
 
 app.listen(port, () => {
-    console.log('아악 열렸따ㅏㅏ아@! 포트 번호는~!!~' + port + '번 입니다~!');
+    console.log(port, 'Server is running');
 });

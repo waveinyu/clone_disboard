@@ -1,4 +1,4 @@
-const RoomRepository = require('../repositories/room.repository');
+const RoomRepository = require("../repositories/room.repository");
 
 class RoomService {
     roomRepository;
