@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
         /**
@@ -22,26 +22,25 @@ module.exports = (sequelize, DataTypes) => {
             nickname: DataTypes.STRING,
             email: DataTypes.STRING,
             password: DataTypes.STRING,
-            birth: DataTypes.STRING,
             imageUrl: DataTypes.STRING,
         },
         {
             sequelize,
-            modelName: 'User',
+            modelName: "User",
         },
     );
     User.associate = function (models) {
         User.hasMany(models.Chat, {
-            foreignKey: 'userId',
-            sourceKey: 'userId',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
+            foreignKey: "userId",
+            sourceKey: "userId",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
         });
         User.hasMany(models.Room, {
-            foreignKey: 'ownerUserId',
-            sourceKey: 'userId',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
+            foreignKey: "ownerUserId",
+            sourceKey: "userId",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
         });
     };
     return User;
