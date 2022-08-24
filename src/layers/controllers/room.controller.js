@@ -11,19 +11,25 @@ class RoomController {
     }
 
     postRoom = async (req, res, next) => {
+        // const ownerUserId = res.locals.userId;
         const ownerUserId = 1;
-        const { roomName, category } = req.body;
-        console.log({ roomName, category });
+        const { roomName, content, category } = req.body;
         try {
             await joi
                 .object({
                     ownerUserId: joi.number().required(),
                     roomName: joi.string().required(),
+                    content: joi.string(),
                     category: joi.string(),
                 })
-                .validateAsync({ ownerUserId, roomName, category });
+                .validateAsync({ ownerUserId, roomName, content, category });
 
-            const result = await this.roomService.postRoom(roomName, category, ownerUserId);
+            const result = await this.roomService.postRoom(
+                ownerUserId,
+                roomName,
+                content,
+                category,
+            );
             return res.status(201).json({ status: 200, success: true, result: result });
         } catch (err) {
             console.log(err);
@@ -35,7 +41,7 @@ class RoomController {
     };
 
     getRoom = async (req, res, next) => {
-        const category = req.query.category;
+        const { category } = req.query;
         try {
             if (category === "") {
                 const getAllRoom = await this.roomService.getRoom();
@@ -52,11 +58,16 @@ class RoomController {
         }
     };
 
-    deleteRoom = async (req, res, next) => {
-        const roomId = req.params.roomId;
-        console.log(roomId);
-        const result = await this.roomService.deleteRoom(roomId);
-        return res.status(200).json({ status: 200, success: true, result: {} });
+    deleteRoom = async (req, res) => {
+        // const ownerUserId = res.locals.userId;
+        const ownerUserId = 2;
+        const { roomId } = req.params;
+
+        const result = await this.roomService.deleteRoom(roomId, ownerUserId);
+        if (result === 1) return res.status(200).json({ result: {} });
+        else {
+            return res.status(400).json({ result: result });
+        }
     };
 }
 
