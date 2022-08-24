@@ -11,6 +11,11 @@ class UserController {
         this.userService = new UserService();
     }
 
+    test = async (req, res) => {
+        console.log("안녕");
+        res.send("Hello");
+    };
+
     signUp = async (req, res, next) => {
         const { email, nickname, password, confirm } = req.body;
         if (!email || !nickname || !password) {
@@ -59,7 +64,6 @@ class UserController {
 
     login = async (req, res, next) => {
         const { email, password } = req.body;
-
         try {
             await joi
                 .object({
@@ -83,6 +87,8 @@ class UserController {
                     message: "이메일 또는 비밀번호가 일치하지 않습니다.",
                 });
             }
+            console.log("req", req.headers);
+
             return res
                 .status(200)
                 .json({ isSuccess: true, message: "로그인 성공! 환영합니다.", result: login });
