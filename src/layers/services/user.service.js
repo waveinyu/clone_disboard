@@ -24,7 +24,6 @@ class UserService {
     findUser = async (email) => {
         const isExistUser = await this.userRepository.findUser(email);
         return isExistUser;
-        // if (!isExistUser) return { sa };
     };
 
     login = async (email, password) => {
