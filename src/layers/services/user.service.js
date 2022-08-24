@@ -29,10 +29,10 @@ class UserService {
 
     login = async (email, password) => {
         const isExistUser = await this.userRepository.findUser(email);
-        if (isExistUser) {
-            const hashPassword = isExistUser.password;
-            const decodePassword = await bcrypt.compare(password, hashPassword);
+        const hashPassword = isExistUser.password;
+        const decodePassword = await bcrypt.compare(password, hashPassword);
 
+        if (isExistUser) {
             if (decodePassword) {
                 const payload = {
                     userId: isExistUser.userId,
@@ -41,20 +41,6 @@ class UserService {
                 return token;
             }
         }
-
-        if (decodePassword) {
-            const token = jwt.sign(
-                {
-                    userId: findUser.userId,
-                },
-                "wave-key",
-            );
-            console.log(token);
-        }
-
-        // const decodePassword = await bcrypt.compare(password, hashPassword);
-        // console.log(decodePassword); //true
-        return 0;
     };
 }
 

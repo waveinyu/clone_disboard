@@ -2,7 +2,7 @@ const express = require("express");
 const UserService = require("../services/user.service");
 const joi = require("joi");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { object } = require("joi");
 
 class UserController {
     userService;
@@ -77,6 +77,12 @@ class UserController {
 
             const login = await this.userService.login(email, password);
 
+            if (login === undefined) {
+                return res.status(400).json({
+                    isSuccess: false,
+                    message: "이메일 또는 비밀번호가 일치하지 않습니다.",
+                });
+            }
             return res
                 .status(200)
                 .json({ isSuccess: true, message: "로그인 성공! 환영합니다.", result: login });
