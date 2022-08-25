@@ -12,12 +12,19 @@ const auth = async (req, res, next) => {
     try {
         const userInfo = jwt.verify(authValue, "dive-into-yu");
         const { userId } = userInfo;
+        // console.log("userInfo", userInfo);
 
         const findByUserId = await User.findOne({ where: { userId } });
+        // console.log("미들웨어", findByUserId.dataValues);
         if (findByUserId === null) {
-            return res.status(400).json({ message: "알 수 없는 에러" });
+            return res.status(400).json({ message: "존재하지 않는 유저입니다." });
+        }
+
+        if (userId !== findByUserId.userId) {
+            return res.status(400).json({ message: "존재하지 않는 유저입니다." });
         }
         res.locals.userId = userInfo.userId;
+
         next();
     } catch (err) {
         if (err.name === "TokenExpiredError")

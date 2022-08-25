@@ -41,6 +41,19 @@ class UserService {
             }
         }
     };
+
+    quit = async (userId, password) => {
+        const isExistUser = await this.userRepository.findByUserId(userId);
+        if (!isExistUser) throw Error("존재하지 않는 유저입니다.");
+
+        const hashPassword = isExistUser.password;
+        const decodePassword = await bcrypt.compare(password, hashPassword);
+        if (!decodePassword) throw Error("비밀번호가 일치하지 않습니다.");
+
+        const deleteUser = await this.userRepository.quit(userId);
+
+        return deleteUser;
+    };
 }
 
 module.exports = UserService;

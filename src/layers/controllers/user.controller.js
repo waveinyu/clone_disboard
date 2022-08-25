@@ -98,6 +98,28 @@ class UserController {
                 .json({ isSuccess: false, message: "입력한 형식이 올바르지 않습니다." });
         }
     };
+
+    quit = async (req, res, next) => {
+        const { password } = req.body;
+        const { userId } = res.locals;
+
+        try {
+            await joi
+                .object({
+                    password: joi.string().required,
+                })
+                .validateAsync({ password });
+
+            quit = await this.userService.quit(userId, password);
+            return res
+                .status(200)
+                .json({ isSuccess: true, message: "정상적으로 탈퇴 되었습니다. " });
+        } catch (err) {
+            return res
+                .status(400)
+                .json({ isSuccess: true, message: "입력한 형식이 올바르지 않습니다. " });
+        }
+    };
 }
 
 module.exports = UserController;

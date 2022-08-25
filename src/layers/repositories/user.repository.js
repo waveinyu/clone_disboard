@@ -23,6 +23,16 @@ class UserRepository {
         const login = await User.findOne({ where: { email, password } });
         return login;
     };
+
+    findByUserId = async (userId) => {
+        const findByUserId = await User.findOne({ where: { userId } });
+        return findByUserId;
+    };
+
+    quit = async (userId) => {
+        const deleteUser = await User.destroy({ where: { userId } });
+        return deleteUser;
+    };
 }
 
 module.exports = UserRepository;
